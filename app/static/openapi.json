@@ -1,0 +1,391 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Party Guest List API",
+    "version": "1.0.0",
+    "description": "REST APIs for party lists, guests, and RSVPs."
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "PartyList": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "guest_count": {"type": "integer"}
+        }
+      },
+      "Guest": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "email": {"type": "string", "nullable": true},
+          "rsvp_status": {
+            "type": "string",
+            "enum": ["pending", "yes", "no", "maybe"]
+          }
+        }
+      },
+      "PartyListDetail": {
+        "allOf": [
+          {"$ref": "#/components/schemas/PartyList"},
+          {
+            "type": "object",
+            "properties": {
+              "guests": {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/Guest"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/lists": {
+      "get": {
+        "summary": "List party lists",
+        "responses": {
+          "200": {
+            "description": "List of party lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PartyList"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a party list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"}
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Party list created",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PartyList"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{list_id}": {
+      "get": {
+        "summary": "Get a party list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Party list details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PartyListDetail"}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a party list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"}
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Party list updated",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PartyList"}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a party list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Party list deleted"
+          }
+        }
+      }
+    },
+    "/guests": {
+      "get": {
+        "summary": "List guests",
+        "responses": {
+          "200": {
+            "description": "List of guests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Guest"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a guest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "email": {"type": "string"},
+                  "rsvp_status": {
+                    "type": "string",
+                    "enum": ["pending", "yes", "no", "maybe"]
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Guest created",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Guest"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guests/{guest_id}": {
+      "get": {
+        "summary": "Get a guest",
+        "parameters": [
+          {
+            "name": "guest_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Guest details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Guest"}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a guest",
+        "parameters": [
+          {
+            "name": "guest_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "email": {"type": "string"},
+                  "rsvp_status": {
+                    "type": "string",
+                    "enum": ["pending", "yes", "no", "maybe"]
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Guest updated",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Guest"}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a guest",
+        "parameters": [
+          {
+            "name": "guest_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Guest deleted"
+          }
+        }
+      }
+    },
+    "/lists/{list_id}/guests": {
+      "get": {
+        "summary": "List guests for a party list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Guest list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Guest"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a guest to a party list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "guest_id": {"type": "integer"},
+                  "name": {"type": "string"},
+                  "email": {"type": "string"},
+                  "rsvp_status": {
+                    "type": "string",
+                    "enum": ["pending", "yes", "no", "maybe"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Guest added",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PartyListDetail"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{list_id}/guests/{guest_id}": {
+      "delete": {
+        "summary": "Remove a guest from a party list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          },
+          {
+            "name": "guest_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Guest removed"
+          }
+        }
+      }
+    }
+  }
+}

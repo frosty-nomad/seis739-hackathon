@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}{{ party_list.name }}{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <h2>{{ party_list.name }}</h2>
+        <a class="link" href="{{ url_for('web.index') }}">Back to lists</a>
+    </div>
+    <p>{{ party_list.guests|length }} guests</p>
+</section>
+
+<section class="panel">
+    <h3>Add a guest</h3>
+    <form class="form" method="post" action="{{ url_for('web.add_guest', list_id=party_list.id) }}">
+        <label>
+            Guest name
+            <input type="text" name="name" placeholder="Alex Rivera" required />
+        </label>
+        <label>
+            Email (optional)
+            <input type="email" name="email" placeholder="alex@email.com" />
+        </label>
+        <label>
+            RSVP status
+            <select name="rsvp_status">
+                {% for status in rsvp_options %}
+                    <option value="{{ status }}">{{ status|capitalize }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <button type="submit">Add guest</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h3>Guest list</h3>
+    {% if party_list.guests %}
+        <ul class="guest-list">
+            {% for guest in party_list.guests %}
+                <li>
+                    <div>
+                        <strong>{{ guest.name }}</strong>
+                        {% if guest.email %}
+                            <span>{{ guest.email }}</span>
+                        {% endif %}
+                        <span>RSVP: {{ guest.rsvp_status|capitalize }}</span>
+                    </div>
+                    <div class="guest-actions">
+                        <form method="post" action="{{ url_for('web.update_rsvp', list_id=party_list.id, guest_id=guest.id) }}">
+                            <select name="rsvp_status">
+                                {% for status in rsvp_options %}
+                                    <option value="{{ status }}" {% if status == guest.rsvp_status %}selected{% endif %}>
+                                        {{ status|capitalize }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="ghost">Update</button>
+                        </form>
+                        <form method="post" action="{{ url_for('web.remove_guest', list_id=party_list.id, guest_id=guest.id) }}" onsubmit="return confirm('Remove this guest from the list?');">
+                            <button type="submit" class="ghost">Remove</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">No guests yet. Add someone above.</p>
+    {% endif %}
+</section>
+{% endblock %}

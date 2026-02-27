@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{% block title %}Party Lists{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="container">
+                <h1 class="site-title"><a href="{{ url_for('web.index') }}">Birthday Guest Lists</a></h1>
+                <p class="site-tagline">Plan the celebration, track RSVPs, and keep the vibe bright.</p>
+            </div>
+        </header>
+        <main class="container">
+            {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>

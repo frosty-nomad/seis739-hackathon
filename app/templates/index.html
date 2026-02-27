@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Party Lists{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h2>Create a new party list</h2>
+    <form class="form" method="post" action="{{ url_for('web.create_list') }}">
+        <label>
+            List name
+            <input type="text" name="name" placeholder="Birthday bash" required />
+        </label>
+        <button type="submit">Create list</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h2>Your party lists</h2>
+    {% if lists %}
+        <ul class="list-grid">
+            {% for party_list in lists %}
+                <li class="list-card">
+                    <div>
+                        <h3><a href="{{ url_for('web.list_detail', list_id=party_list.id) }}">{{ party_list.name }}</a></h3>
+                        <p>{{ party_list.guests|length }} guests</p>
+                    </div>
+                    <form method="post" action="{{ url_for('web.delete_list', list_id=party_list.id) }}">
+                        <button type="submit" class="danger">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">No lists yet. Create your first party list above.</p>
+    {% endif %}
+</section>
+{% endblock %}

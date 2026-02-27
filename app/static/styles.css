@@ -1,0 +1,205 @@
+:root {
+    color-scheme: light;
+    --bg: #fff5f2;
+    --panel: #ffffff;
+    --text: #2d1f1a;
+    --muted: #7a5f55;
+    --accent: #ff6b6b;
+    --accent-dark: #e34d5b;
+    --border: #f0d3cb;
+    --sprinkle-1: rgba(255, 211, 105, 0.35);
+    --sprinkle-2: rgba(122, 194, 255, 0.35);
+    --sprinkle-3: rgba(187, 136, 255, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at 12% 18%, var(--sprinkle-1), transparent 45%),
+        radial-gradient(circle at 80% 12%, var(--sprinkle-2), transparent 45%),
+        radial-gradient(circle at 65% 78%, var(--sprinkle-3), transparent 50%),
+        linear-gradient(180deg, #fff5f2 0%, #ffe9e3 100%);
+    color: var(--text);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 70px 90px at 12% 22%, rgba(255, 107, 107, 0.45), transparent 60%),
+        radial-gradient(ellipse 60px 80px at 18% 32%, rgba(255, 214, 165, 0.4), transparent 60%),
+        radial-gradient(ellipse 65px 85px at 85% 18%, rgba(122, 194, 255, 0.4), transparent 60%),
+        radial-gradient(ellipse 55px 75px at 78% 34%, rgba(187, 136, 255, 0.4), transparent 60%),
+        radial-gradient(ellipse 60px 80px at 50% 85%, rgba(255, 170, 204, 0.35), transparent 60%);
+    opacity: 0.9;
+    z-index: 0;
+}
+
+.site-header,
+main {
+    position: relative;
+    z-index: 1;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: min(980px, 92vw);
+    margin: 0 auto;
+}
+
+.site-header {
+    padding: 56px 0 36px;
+    border-bottom: 1px solid var(--border);
+    background:
+        radial-gradient(circle at top right, rgba(255, 214, 165, 0.8), transparent 50%),
+        radial-gradient(circle at 10% 40%, rgba(255, 108, 165, 0.25), transparent 55%);
+}
+
+.site-title {
+    font-size: 2.5rem;
+    margin: 0 0 8px;
+    letter-spacing: 0.5px;
+}
+
+.site-tagline {
+    margin: 0;
+    color: var(--muted);
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    margin: 24px 0;
+    box-shadow: 0 16px 32px rgba(45, 31, 26, 0.08);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form {
+    display: grid;
+    gap: 16px;
+}
+
+.form label {
+    display: grid;
+    gap: 8px;
+    font-weight: 600;
+}
+
+input {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+select {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 1rem;
+}
+
+button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 12px 18px rgba(255, 107, 107, 0.25);
+}
+
+button:hover {
+    background: var(--accent-dark);
+}
+
+button.danger {
+    background: #d6413b;
+}
+
+button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.list-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.list-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff0f1;
+}
+
+.list-card h3 {
+    margin: 0 0 6px;
+}
+
+.guest-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.guest-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+}
+
+.guest-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.guest-actions form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.empty {
+    color: var(--muted);
+}
+
+.link {
+    font-weight: 600;
+    color: var(--accent);
+}
