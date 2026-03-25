@@ -6,7 +6,7 @@ party_list_guests = db.Table(
     db.Column("guest_id", db.Integer, db.ForeignKey("guests.id"), primary_key=True),
 )
 
-RSVP_STATUSES = ("pending", "yes", "no", "maybe")
+RSVP_STATUSES = ("pending", "accepted", "declined")
 
 
 class PartyList(db.Model):
